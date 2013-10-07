@@ -1,0 +1,33 @@
+<%= @app_environment %>:
+<% @daemon_dir = @config["daemon"]["dir"] || @dir %>
+  aws:
+    access_key_id: <%= @config["aws"]["config"]["access_key_id"] %>
+    secret_access_key: <%= @config["aws"]["config"]["secret_access_key"] %>
+    region: <%= @config["aws"]["config"]["region"] %>
+    request_wait: <%= @config["aws"]["config"]["request_wait"] %>
+  daemon:
+    app_name: <%= @config["id"] %>
+    backtrace: <%= @config["daemon"]["backtrace"] %>
+    dir_mode: <%= @config["daemon"]["dir_mode"] %>
+    dir: <%= @daemon_dir %>
+    <% if @config["daemon"]["log"] %>
+    log:
+      logger: <%= @config["daemon"]["log"]["logger"] %>
+      <% case @config["daemon"]["log"]["logger"]
+         when "file" %>
+      log_file: <%= File.join(@daemon_dir, @config["daemon"]["log"]["log_file"]) %>
+      shift_age: <%= @config["daemon"]["log"]["shift_age"] %>
+      <% when "syslog" %>
+      log_facility: <%= @config["daemon"]["log"]["log_facility"] %>
+      <% end %>
+    <% end %>
+    monitor: <%= @config["daemon"]["monitor"] %>
+  pantry:
+    api_key: <%= @config["pantry"]["pantry_api_key"] %>
+    request_timeout: <%= @config["pantry"]["pantry_request_timeout"] %>
+    url: <%= @config["pantry"]["pantry_url"] || @pantry_url %>
+  sns:
+    topic_arn: <%= @config["aws"]["topic_arn"] %>
+    error_arn: <%= @config["aws"]["error_arn"] %>
+  sqs:
+    queue_name: <%= @config["aws"]["queue_name"] %>

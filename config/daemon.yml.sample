@@ -1,0 +1,67 @@
+development:
+  aws:
+    access_key_id: some_aws_iam_access_key_id
+    secret_access_key: some_aws_iam_secret_access_key
+    region: eu-west-1
+  daemon:
+    app_name: this_daemon_name
+    backtrace: true
+    dir_mode: normal 
+    dir: /tmp
+    monitor: false
+  pantry:
+    api_key: some_pantry_api_key
+    request_timeout: 10
+    url: http://some.pantry.fqdn
+  sqs:
+    queue_name: daemon_specific_queue
+  sns:
+    topic_arn: daemon_specific_topic_arn
+    error_arn: daemon_specific_error_arn
+test:
+  aws:
+    access_key_id: some_aws_iam_access_key_id
+    secret_access_key: some_aws_iam_secret_access_key
+    region: eu-west-1
+  daemon:
+    app_name: this_daemon_name
+    backtrace: true
+    dir_mode: system
+    dir: /var/run
+    log:
+      logger: file
+      log_file: /var/run/this_daemon_logfile.log
+      shift_age: 4
+    monitor: true
+  pantry:
+    api_key: some_pantry_api_key
+    request_timeout: 10
+    url: http://some.pantry.fqdn
+  sqs:
+    queue_name: daemon_specific_queue
+  sns:
+    topic_arn: daemon_specific_topic_arn
+    error_arn: daemon_specific_error_arn
+production:
+  aws:
+    access_key_id: some_aws_iam_access_key_id
+    secret_access_key: some_aws_iam_secret_access_key
+    region: eu-west-1
+  daemon:
+    app_name: this_daemon_name
+    backtrace: false
+    dir_mode: system 
+    dir: /var/run
+    log:
+      logger: syslog
+      log_facility: syslog
+    monitor: true
+  pantry:
+    api_key: some_pantry_api_key
+    request_timeout: 10
+    url: http://some.pantry.fqdn
+  sqs:
+    queue_name: daemon_specific_queue
+  sns:
+    topic_arn: daemon_specific_topic_arn
+    error_arn: daemon_specific_error_arn
