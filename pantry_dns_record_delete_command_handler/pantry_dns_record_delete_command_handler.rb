@@ -13,26 +13,22 @@ module Wonga
         ec2_instance = AWSResource.new.find_server_by_id message["instance_id"]
         hostname = message["instance_name"]
         domain = message["domain"]
-        puts domain
-        machine_address = ec2_instance.private_ip_address
-        puts machine_address
-        #@logger.info "Finding SOA"
+        ≈"FQDN is: #{hostname}.#{domain}")
+        
         resolver = Resolv::DNS.new()
         name_server = resolver.getresource(domain, Resolv::DNS::Resource::IN::NS).name
-        puts name_server
-        @logger.info "Name Server located: #{name_server}"
+        @logger.info("Name Server located: #{name_server}")
+        
         runner = WinRMRunner.new
         @logger.info "WinRM Run command"
         puts name_server
         runner.add_host name_server
+        
         # http://technet.microsoft.com/en-us/library/cc772069.aspx#BKMK_15
-        # syntax: dnscmd /recorddelete <ZoneName> <NodeName> <RRType> <RRData>[/f]
-        # example: dnscmd /recorddelete test.contoso.com test MX 10 mailserver.test.contoso.com
-        command = "dnscmd #{??} /recorddelete #{domain} #{hostname} A #{hostname}.#{domain}"
-        @logger.info command
-        dns_record_hash = command
-        @logger.info "WinRM Run command retuned with"
-        @logger.debug dns_record_hash.inspect
+        # syntax: dnscmd <NameServer> /recorddelete <ZoneName> <NodeName> <RRType> <RRData> [/f]
+        command = "dnscmd #{name_server} /recorddelete #{domain} #{hostname}.#{domain}. A /f"
+        @logger.info(command)
+        runner.run_commands(command)
         @publisher.publish(message)
       end
     end
