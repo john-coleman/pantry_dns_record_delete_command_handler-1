@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'pantry_daemon_common', git: 'git@github.com:wongatech/pantry_daemon_common.git', :tag => <insert version here>
+gem 'pantry_daemon_common', git: 'git@github.com:wongatech/pantry_daemon_common.git', tag: 'v0.1.8'
 
 group :development do
   gem 'guard-rspec'
