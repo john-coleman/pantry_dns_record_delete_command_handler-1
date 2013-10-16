@@ -11,8 +11,6 @@ module Wonga
       end
 
       def handle_message(message)
-        #hostname = message["instance_name"]
-        #domain = message["domain"]
         fqdn = message["node"].split(".")
         hostname = fqdn[0]
         domain = fqdn.slice(1, fqdn.length)
