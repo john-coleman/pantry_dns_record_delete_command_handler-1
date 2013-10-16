@@ -4,9 +4,9 @@ require 'resolv'
 module Wonga
   module Daemon
     class PantryDnsRecordDeleteCommandHandler
-      def initialize(ad_username, ad_password, publisher, logger, config)
-        @ad_username = ad_username
-        @ad_password = ad_password
+      def initialize(publisher, logger, config)
+        @ad_username = config['ad']['username']
+        @ad_password = config['ad']['password']
         @publisher   = publisher
         @logger      = logger
         @config      = config

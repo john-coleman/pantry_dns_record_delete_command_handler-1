@@ -13,7 +13,7 @@ describe Wonga::Daemon::PantryDnsRecordDeleteCommandHandler do
       "instance_id" => 'i-c2c44977'
     }  
   }
-  subject { described_class.new("blop", "hurr", publisher, logger, config) }
+  subject { described_class.new(publisher, logger, config) }
   it_behaves_like 'handler'
   
   describe "#handle_message" do
