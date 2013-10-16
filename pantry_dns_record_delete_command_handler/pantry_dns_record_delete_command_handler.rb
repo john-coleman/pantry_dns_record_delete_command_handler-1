@@ -5,8 +5,6 @@ module Wonga
   module Daemon
     class PantryDnsRecordDeleteCommandHandler
       def initialize(publisher, logger, config)
-        @ad_username = config['ad']['username']
-        @ad_password = config['ad']['password']
         @publisher   = publisher
         @logger      = logger
         @config      = config
@@ -26,7 +24,7 @@ module Wonga
       def delete_record(name_server, domain, hostname) 
         runner      = WinRMRunner.new        
         @logger.info("WinRM Adding host: #{name_server}")
-        runner.add_host(name_server, @ad_username, @ad_password)
+        runner.add_host(name_server, @config['ad']['username'], @config['ad']['password'])
         # http://technet.microsoft.com/en-us/library/cc772069.aspx#BKMK_15
         # syntax: dnscmd <NameServer>   /recorddelete <ZoneName> <NodeName> <RRType> <RRData> [/f]
         command     = "dnscmd #{name_server} /recorddelete #{domain} #{hostname}.#{domain} A /f"
