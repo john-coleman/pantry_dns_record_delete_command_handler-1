@@ -11,9 +11,11 @@ module Wonga
       end
 
       def handle_message(message)
-        hostname = message["instance_name"]
-        domain = message["domain"]
-        @logger.info("FQDN is: #{hostname}.#{domain}")
+        fqdn = message["node"].split(".")
+        hostname = fqdn[0]
+        domain = fqdn.slice(1, fqdn.length)
+
+        @logger.info("FQDN is: #{fqdn}")
         name_server = get_name_server(@config['daemon']['name_server'], domain)
         @logger.info("Name Server located: #{name_server}")
         runner = WinRMRunner.new
