@@ -6,7 +6,13 @@ describe Wonga::Daemon::PantryDnsRecordDeleteCommandHandler do
   let(:publisher) { instance_double('Publisher').as_null_object }
   let(:config) { instance_double('Wonga::Daemon.load_config', {'daemon' => {'name_server' => 'a_server'}}).as_null_object }
   let(:win_rm_runner) { instance_double('Wonga::Daemon::WinRMRunner').as_null_object }
-  let(:message) { { "instance_name" => "hellraiser", "domain" => 'aws.example.com'} }
+  let(:message) { 
+    {
+      "id"          => 1,
+      "node"        => 'some-node.example.com',
+      "instance_id" => 'i-c2c44977'
+    }  
+  }
   subject { described_class.new(publisher, logger, config) }
   it_behaves_like 'handler'
   
