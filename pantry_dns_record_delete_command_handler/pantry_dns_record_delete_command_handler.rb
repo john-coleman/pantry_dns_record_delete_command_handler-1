@@ -18,7 +18,7 @@ module Wonga
         @logger.info("Name Server located: #{name_server}")
         delete_record(name_server, domain, hostname)
         @logger.info("Complete. Publishing to topic")
-        @publisher.publish(message)        
+        @publisher.publish(message)      
       end
 
       def delete_record(name_server, domain, hostname) 
