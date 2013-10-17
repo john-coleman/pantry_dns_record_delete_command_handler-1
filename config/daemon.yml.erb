@@ -9,6 +9,7 @@
     app_name: <%= @config["id"] %>
     backtrace: <%= @config["daemon"]["backtrace"] %>
     dir_mode: <%= @config["daemon"]["dir_mode"] %>
+    name_server: <%= @config["daemon"]["name_server"] %>
     dir: <%= @daemon_dir %>
     <% if @config["daemon"]["log"] %>
     log:
@@ -31,3 +32,6 @@
     error_arn: <%= @config["aws"]["error_arn"] %>
   sqs:
     queue_name: <%= @config["aws"]["queue_name"] %>
+  ad:
+    username: <%= @config["ad"]["username"] %>
+    password: <%= @config["ad"]["password"] %>

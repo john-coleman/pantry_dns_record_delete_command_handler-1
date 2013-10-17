@@ -18,6 +18,9 @@ development:
   sns:
     topic_arn: daemon_specific_topic_arn
     error_arn: daemon_specific_error_arn
+  ad:
+    username: someuser
+    password: somepass    
 test:
   aws:
     access_key_id: some_aws_iam_access_key_id
@@ -42,6 +45,10 @@ test:
   sns:
     topic_arn: daemon_specific_topic_arn
     error_arn: daemon_specific_error_arn
+  ad:
+    username: someuser
+    password: somepass
+
 production:
   aws:
     access_key_id: some_aws_iam_access_key_id
@@ -65,3 +72,7 @@ production:
   sns:
     topic_arn: daemon_specific_topic_arn
     error_arn: daemon_specific_error_arn
+  ad:
+    username: someuser
+    password: somepass
+
