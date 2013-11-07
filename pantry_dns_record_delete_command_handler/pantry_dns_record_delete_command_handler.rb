@@ -27,9 +27,13 @@ module Wonga
         runner.add_host(name_server, @config['ad']['username'], @config['ad']['password'])
         # http://technet.microsoft.com/en-us/library/cc772069.aspx#BKMK_15
         # syntax: dnscmd <NameServer>   /recorddelete <ZoneName> <NodeName> <RRType> <RRData> [/f]
-        command     = "dnscmd #{name_server} /recorddelete #{domain} #{hostname}.#{domain} A /f"
+        command     = "dnscmd #{name_server} /recorddelete #{domain} #{hostname} A /f"
         @logger.info("WinRM exec: #{command}")
-        result      = runner.run_commands(command)
+        result      = runner.run_commands(command) do |cmd, return_data|
+          unless return_data.include? "Command completed successfully"
+            @logger.error(return_data)
+          end
+        end
         @logger.info("WinRM returned: #{result.inspect}")
       end
       
