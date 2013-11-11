@@ -9,7 +9,8 @@ describe Wonga::Daemon::PantryDnsRecordDeleteCommandHandler do
   let(:message) { 
     {
       "id"          => 1,
-      "node"        => 'some-node.example.com',
+      "hostname"    => 'some-node',
+      "domain"      => 'example.com',
       "instance_id" => 'i-c2c44977'
     }  
   }

@@ -11,9 +11,8 @@ module Wonga
       end
 
       def handle_message(message)
-        fqdn         = message["node"].split(".") 
-        hostname     = fqdn[0]
-        domain       = fqdn.slice(1, fqdn.length).join(".")        
+        hostname     = message["hostname"]
+        domain       = message["domain"]
         name_server  = get_name_server(@config['daemon']['name_server'], domain)
         @logger.info("Name Server located: #{name_server}")
         delete_record(name_server, domain, hostname)
