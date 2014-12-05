@@ -16,12 +16,12 @@ module Wonga
         name_server  = get_name_server(@config['daemon']['name_server'], domain)
         @logger.info("Name Server located: #{name_server}")
         delete_record(name_server, domain, hostname)
-        @logger.info("Complete. Publishing to topic")
-        @publisher.publish(message)      
+        @logger.info('Delete dns record command completed successfully')
+        @publisher.publish(message)
       end
 
-      def delete_record(name_server, domain, hostname) 
-        runner      = WinRMRunner.new        
+      def delete_record(name_server, domain, hostname)
+        runner      = WinRMRunner.new
         @logger.info("WinRM Adding host: #{name_server}")
         runner.add_host(name_server, @config['ad']['username'], @config['ad']['password'])
         # http://technet.microsoft.com/en-us/library/cc772069.aspx#BKMK_15
