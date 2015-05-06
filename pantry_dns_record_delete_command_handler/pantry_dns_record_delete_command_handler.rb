@@ -11,8 +11,8 @@ module Wonga
       end
 
       def handle_message(message)
-        hostname     = message["hostname"]
-        domain       = message["domain"]
+        hostname     = message['hostname']
+        domain       = message['domain']
         name_server  = get_name_server(@config['daemon']['name_server'], domain)
         @logger.info("Name Server located: #{name_server}")
         delete_record(name_server, domain, hostname)
@@ -21,25 +21,27 @@ module Wonga
       end
 
       def delete_record(name_server, domain, hostname)
-        runner      = WinRMRunner.new
+        runner = WinRMRunner.new
         @logger.info("WinRM Adding host: #{name_server}")
         runner.add_host(name_server, @config['ad']['username'], @config['ad']['password'])
         # http://technet.microsoft.com/en-us/library/cc772069.aspx#BKMK_15
         # syntax: dnscmd <NameServer>   /recorddelete <ZoneName> <NodeName> <RRType> <RRData> [/f]
-        command     = "dnscmd #{name_server} /recorddelete #{domain} #{hostname} A /f"
+        command = "dnscmd #{name_server} /recorddelete #{domain} #{hostname} A /f"
         @logger.info("WinRM exec: #{command}")
-        result      = runner.run_commands(command) do |cmd, return_data|
-          unless return_data.include? "Command completed successfully"
+        runner.run_commands(command) do |_cmd, return_data|
+          if /Command completed successfully/.match(return_data)
+            @logger.info("WinRM returned: #{return_data}")
+          else
             @logger.error(return_data)
+            fail 'DNS Record Delete Failed'
           end
         end
-        @logger.info("WinRM returned: #{result.inspect}")
       end
-      
+
       def get_name_server(name_server, domain)
         if name_server.nil? || name_server.empty?
           resolver  = Resolv::DNS.new
-          resolver.getresource(domain,Resolv::DNS::Resource::IN::A).address.to_s
+          resolver.getresource(domain, Resolv::DNS::Resource::IN::A).address.to_s
         else
           name_server
         end
