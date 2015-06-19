@@ -7,20 +7,20 @@ unless ENV['SKIP_COV']
   ]
   SimpleCov.start
 end
-
-# require 'aws-sdk-v1'
-require 'rspec/fire'
 require 'spec_support/shared_daemons'
 
-# AWS.config :access_key_id=>"test", :secret_access_key=>"test"
-# AWS.stub!
-
 RSpec.configure do |config|
-  config.include(RSpec::Fire)
-
-  # Run specs in random order to surface order dependencies. If you find an
-  # order dependency and want to debug it, you can fix the order by providing
-  # the seed, which is printed after each run.
-  #     --seed 1234
+  config.filter_run focus: true
+  config.run_all_when_everything_filtered = true
   config.order = 'random'
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = :expect
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+  config.disable_monkey_patching!
+
+  config.mock_with :rspec do |mocks|
+    mocks.syntax = :expect
+    mocks.verify_partial_doubles = true
+  end
 end

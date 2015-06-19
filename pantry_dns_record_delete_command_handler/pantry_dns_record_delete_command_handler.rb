@@ -28,14 +28,12 @@ module Wonga
         # syntax: dnscmd <NameServer>   /recorddelete <ZoneName> <NodeName> <RRType> <RRData> [/f]
         command = "dnscmd #{name_server} /recorddelete #{domain} #{hostname} A /f"
         @logger.info("WinRM exec: #{command}")
+        success = false
         runner.run_commands(command) do |_cmd, return_data|
-          if /Command completed successfully/.match(return_data)
-            @logger.info("WinRM returned: #{return_data}")
-          else
-            @logger.error(return_data)
-            fail 'DNS Record Delete Failed'
-          end
+          @logger.info("WinRM returned: #{return_data}")
+          success ||= /Command completed successfully/.match(return_data)
         end
+        fail 'Error in executing command' unless success
       end
 
       def get_name_server(name_server, domain)
