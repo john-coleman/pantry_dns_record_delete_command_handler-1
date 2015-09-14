@@ -63,7 +63,7 @@ RSpec.describe Wonga::Daemon::PantryDnsRecordDeleteCommandHandler do
     end
 
     it 'returns a name server from config file' do
-      expect(subject.get_name_server('a_server', 'aws.example.com')).to eq 'a_server'
+      expect(subject.get_name_server('a_server', 'example.com')).to eq 'a_server'
     end
   end
 end
